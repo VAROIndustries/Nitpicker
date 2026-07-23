@@ -34,14 +34,15 @@ def test_save_then_load_roundtrip(tmp_path):
     assert config.load_config(p)["master_level"] == 55
 
 
-def test_ensure_model_adds_default_offset():
+def test_ensure_model_adds_default_offset_and_contrast():
     cfg = config.default_config()
     config.ensure_model(cfg, "PHL 271V8LB")
-    assert cfg["monitors_by_model"]["PHL 271V8LB"] == {"offset": 0}
+    assert cfg["monitors_by_model"]["PHL 271V8LB"] == {"offset": 0, "contrast": None}
 
 
-def test_ensure_model_leaves_existing_untouched():
+def test_ensure_model_leaves_existing_offset_untouched_but_backfills_contrast():
     cfg = config.default_config()
     cfg["monitors_by_model"]["TFG HD"] = {"offset": -15}
     config.ensure_model(cfg, "TFG HD")
     assert cfg["monitors_by_model"]["TFG HD"]["offset"] == -15
+    assert cfg["monitors_by_model"]["TFG HD"]["contrast"] is None

@@ -31,6 +31,11 @@ def main():
                  now_fn=lambda: datetime.now(timezone.utc).astimezone(),
                  luminance_fn=webcam.measure_luminance)
 
+    try:
+        eng.apply_contrast()  # apply saved per-monitor contrast on startup
+    except Exception:
+        logging.exception("apply_contrast on startup failed")
+
     def loop():
         while True:
             try:

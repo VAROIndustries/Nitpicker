@@ -1,7 +1,7 @@
 import sys
 from PIL import Image, ImageDraw
 import pystray
-from amb import autostart, slider
+from amb import autostart, slider, settings_window
 
 
 def _icon_image():
@@ -27,6 +27,16 @@ def run(engine, cfg, exe_path):
         cfg["autostart"] = new
         icon.update_menu()
 
+    def open_settings(icon, item):
+        rows = engine.monitor_rows()
+
+        def on_save(results):
+            for r in results:
+                engine.set_offset(r["key"], r["offset"])
+                engine.set_contrast(r["key"], r["contrast"])
+
+        settings_window.open_settings(rows, on_save)
+
     def brighter(icon, item):
         engine.nudge(+10)
 
@@ -39,6 +49,7 @@ def run(engine, cfg, exe_path):
 
     menu = pystray.Menu(
         pystray.MenuItem("Set master brightness…", open_slider, default=True),
+        pystray.MenuItem("Per-monitor settings…", open_settings),
         pystray.MenuItem("Brighter (+10)", brighter),
         pystray.MenuItem("Dimmer (−10)", dimmer),
         pystray.MenuItem("Auto dimming", toggle_auto,

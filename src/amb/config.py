@@ -38,6 +38,7 @@ def save_config(cfg: dict, path: Path) -> None:
 
 def ensure_model(cfg: dict, model: str) -> dict:
     cfg.setdefault("monitors_by_model", {})
-    if model not in cfg["monitors_by_model"]:
-        cfg["monitors_by_model"][model] = {"offset": 0}
+    entry = cfg["monitors_by_model"].setdefault(model, {})
+    entry.setdefault("offset", 0)
+    entry.setdefault("contrast", None)  # None = leave the monitor's contrast untouched
     return cfg

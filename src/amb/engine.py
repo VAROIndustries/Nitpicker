@@ -47,3 +47,53 @@ class Engine:
 
     def nudge(self, delta: int):
         self.set_master(self.cfg["master_level"] + delta)
+
+    def apply_contrast(self):
+        """Set each connected monitor's contrast from its per-model config (skips None)."""
+        for info in self._infos():
+            key = monitors.model_key(info)
+            c = self.cfg["monitors_by_model"].get(key, {}).get("contrast")
+            if c is not None and self.backend.supports_contrast(info.id):
+                try:
+                    self.backend.set_contrast(info.id, int(c))
+                except Exception:
+                    pass
+
+    def set_offset(self, model_key: str, value: int):
+        entry = self.cfg.setdefault("monitors_by_model", {}).setdefault(model_key, {})
+        entry["offset"] = max(-100, min(100, int(value)))
+        config.save_config(self.cfg, self.path)
+        self._apply_now(self.cfg["master_level"])
+
+    def set_contrast(self, model_key: str, value):
+        entry = self.cfg.setdefault("monitors_by_model", {}).setdefault(model_key, {})
+        entry["contrast"] = None if value is None else max(0, min(100, int(value)))
+        config.save_config(self.cfg, self.path)
+        self.apply_contrast()
+
+    def monitor_rows(self):
+        """One row per connected monitor model group, for the settings UI."""
+        rows = {}
+        order = []
+        for info in self._infos():
+            key = monitors.model_key(info)
+            if key not in rows:
+                entry = self.cfg["monitors_by_model"].get(key, {})
+                rows[key] = {
+                    "key": key,
+                    "count": 0,
+                    "offset": entry.get("offset", 0),
+                    "contrast": entry.get("contrast"),
+                    "contrast_supported": self.backend.supports_contrast(info.id),
+                }
+                order.append(key)
+            rows[key]["count"] += 1
+        out = []
+        for key in order:
+            r = rows[key]
+            label = "Laptop screen" if key == "internal" else key
+            if r["count"] > 1:
+                label += f"  (x{r['count']})"
+            r["label"] = label
+            out.append(r)
+        return out
