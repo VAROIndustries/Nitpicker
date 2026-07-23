@@ -1,7 +1,7 @@
 import sys
 from PIL import Image, ImageDraw
 import pystray
-from amb import autostart, slider, settings_window
+from amb import autostart, slider, settings_window, about
 
 
 def _icon_image():
@@ -43,6 +43,9 @@ def run(engine, cfg, exe_path):
     def dimmer(icon, item):
         engine.nudge(-10)
 
+    def open_about(icon, item):
+        about.show_about()
+
     def quit_app(icon, item):
         icon.stop()
         sys.exit(0)
@@ -56,6 +59,7 @@ def run(engine, cfg, exe_path):
                          checked=lambda i: cfg["auto_dimming"]),
         pystray.MenuItem("Start with Windows", toggle_autostart,
                          checked=lambda i: cfg["autostart"]),
+        pystray.MenuItem("About Nitpicker…", open_about),
         pystray.MenuItem("Quit", quit_app),
     )
     pystray.Icon("Nitpicker", _icon_image(),
