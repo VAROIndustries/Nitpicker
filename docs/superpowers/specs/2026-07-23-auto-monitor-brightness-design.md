@@ -52,7 +52,11 @@ Python packaged to a standalone `.exe` via **PyInstaller** (`--onefile --noconso
 
 ## Config & data model
 
-`config.json` — offsets keyed by monitor **model** so identical hardware shares one setting:
+`config.json` — offsets keyed by monitor **identity** (`manufacturer_id + model`, or the
+reserved `internal` for the laptop panel) so identical hardware shares one setting while
+different hardware stays distinct. NOTE: verified on hardware — `screen_brightness_control`
+reports both USB monitors as model `"Generic Monitor"`, so model-only keys would wrongly
+merge them; `manufacturer_id` (from EDID: `TFG`, `HCD`) keeps them separate.
 
 ```json
 {
@@ -60,10 +64,10 @@ Python packaged to a standalone `.exe` via **PyInstaller** (`--onefile --noconso
   "auto_dimming": true,
   "autostart": true,
   "monitors_by_model": {
-    "PHL 271V8LB": { "offset": 0 },
-    "TFG HD":      { "offset": -15 },
-    "MAGEDOK":     { "offset": -10 },
-    "internal":    { "offset": 5 }
+    "PHL 271V8LB":         { "offset": 0 },
+    "TFG Generic Monitor": { "offset": -15 },
+    "HCD Generic Monitor": { "offset": -10 },
+    "internal":            { "offset": 5 }
   },
   "curve":  { "day_max": 100, "night_min": 30, "location": "lat,lon" },
   "webcam": { "enabled": true, "camera_index": 0, "sample_every_sec": 300, "max_nudge": 15 }

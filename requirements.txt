@@ -1,0 +1,7 @@
+screen_brightness_control==0.24.1
+astral==3.2
+opencv-python==4.11.0.86
+pystray==0.19.5
+Pillow==11.1.0
+pytest==8.3.4
+pyinstaller==6.11.1
