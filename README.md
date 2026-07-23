@@ -10,8 +10,13 @@ Verified working on: the laptop's internal panel (via WMI) and all five external
 ## Features
 
 - **One master level drives every monitor.** Set it from the tray; all six change together.
+- **Per-monitor settings window** (tray → "Per-monitor settings…"). One row per monitor group
+  with a **brightness-offset** slider and a **contrast** slider — no JSON editing needed.
 - **Per-model offsets.** Each monitor type can start higher or lower than the master (e.g.
   USB monitors −15). Identical hardware (the three Philips) shares one offset.
+- **Per-model contrast.** Absolute contrast per monitor group over DDC/CI (external monitors
+  only — the laptop panel has no contrast control). Leave "Set contrast" unchecked to not
+  touch a monitor's contrast.
 - **Auto dimming (toggleable).** A sunrise→sunset curve for your location sets a baseline,
   with an optional webcam light-meter nudge (there is no ambient light sensor on this
   hardware, so the webcam is the sensing option). Turn the whole thing on/off from the tray.
@@ -28,8 +33,8 @@ Output: `dist/AutoMonitorBrightness.exe` — a standalone executable, no Python 
 
     .venv/Scripts/python.exe -m amb
 
-A tray icon appears. Right-click for: set master brightness, brighter/dimmer, auto-dimming
-toggle, start-with-Windows toggle, quit.
+A tray icon appears. Right-click for: set master brightness, **per-monitor settings**
+(offset + contrast), brighter/dimmer, auto-dimming toggle, start-with-Windows toggle, quit.
 
 ## Configuration
 
