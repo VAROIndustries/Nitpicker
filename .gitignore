@@ -1,0 +1,8 @@
+logs/session_log.md
+__pycache__/
+*.pyc
+build/
+dist/
+*.spec
+.venv/
+config.json
