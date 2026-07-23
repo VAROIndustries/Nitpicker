@@ -58,5 +58,5 @@ def run(engine, cfg, exe_path):
                          checked=lambda i: cfg["autostart"]),
         pystray.MenuItem("Quit", quit_app),
     )
-    pystray.Icon("AutoMonitorBrightness", _icon_image(),
-                 "Auto Monitor Brightness", menu).run()
+    pystray.Icon("Nitpicker", _icon_image(),
+                 "Nitpicker — monitor brightness & contrast", menu).run()

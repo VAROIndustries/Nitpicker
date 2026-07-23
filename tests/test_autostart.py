@@ -3,10 +3,10 @@ from amb import autostart
 
 def test_enable_and_disable_with_fake_backend():
     store = {}
-    autostart.set_autostart(True, r"C:\x\AutoMonitorBrightness.exe", _backend=store)
+    autostart.set_autostart(True, r"C:\x\Nitpicker.exe", _backend=store)
     assert autostart.is_enabled(_backend=store) is True
-    assert store["AutoMonitorBrightness"] == r"C:\x\AutoMonitorBrightness.exe"
-    autostart.set_autostart(False, r"C:\x\AutoMonitorBrightness.exe", _backend=store)
+    assert store["Nitpicker"] == r"C:\x\Nitpicker.exe"
+    autostart.set_autostart(False, r"C:\x\Nitpicker.exe", _backend=store)
     assert autostart.is_enabled(_backend=store) is False
 
 

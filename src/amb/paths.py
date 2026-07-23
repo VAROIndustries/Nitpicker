@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-APP_NAME = "AutoMonitorBrightness"
+APP_NAME = "Nitpicker"
 
 
 def appdata_dir() -> Path:

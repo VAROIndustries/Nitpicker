@@ -1,5 +1,5 @@
 RUN_KEY = r"Software\Microsoft\Windows\CurrentVersion\Run"
-VALUE_NAME = "AutoMonitorBrightness"
+VALUE_NAME = "Nitpicker"
 
 
 def set_autostart(enabled: bool, exe_path: str, _backend=None) -> None:
